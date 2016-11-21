@@ -2,44 +2,43 @@
  <html>
  <head>
      <meta charset="utf-8">
+     <title>医星汇下载页面</title>
      <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
      <meta name="apple-mobile-web-app-capable" content="yes">
      <meta name="apple-mobile-web-app-status-bar-style" content="black">
      <meta name="format-detection" content="telephone=no">
-     <title></title>
+     <link rel="stylesheet" href="css/style.css">
  </head>
  <body>
-     <div class="main">
-         <img src="" alt="">
-         <a href="">Andiold下载</a>
-         <a href="">iPhone下载</a>
+ <section>
+     <div class="bg is-1">
+
      </div>
-     <div class="case">
-         <article>
-             <h2>电子病历，随身携带</h2>
-             <p>医星汇可以快速上传体检报告或病历表，在线问诊时，医生可以直接查看您的病历，方便医生诊断</p>
-         </article>
-         <figure>
-             <img src="" alt="">
-         </figure>
+     <div class="bg is-2">
      </div>
-     <div class="doctor">
-         <figure>
-             <img src="" alt="">
-         </figure>
-         <article>
-             <h2>名医专家，轻松查看</h2>
-             <p>医星汇可以查看医生擅长及简介，帮助您快速了解您选择的医生。医星汇有图文资讯、视频资讯、视频会诊三种诊疗方式任您选择，既高效，更有保障。</p>
-         </article>
+     <div class="bg is-3">
      </div>
-     <div class="hospital">
-         <article>
-             <h2>互联网医院，一键直达</h2>
-             <p>加入医星汇，开启互联网医疗问诊新生活，拥抱健康，从现在开始！</p>
-         </article>
-         <figure>
-             <img src="" alt="">
-         </figure>
+     <div class="bg is-4">
      </div>
+     <div class="bg is-5">
+     </div>
+ </section>
+ <script type="text/javascript">
+     (function(){
+         var width   = (window.innerWidth > 0) ? window.innerWidth : screen.width
+         let scale   = width/750
+         let bgH     = 400 * scale
+         let arr     = [
+            '.bg{height:'+bgH+'px;}'
+         ]
+         var cssNode = document.createTextNode(arr.join(''));
+
+         var style = document.createElement("style");
+         style.type = "text/css";
+         style.appendChild(cssNode);
+         document.head.appendChild(style);
+
+     })();
+ </script>
  </body>
  </html>
