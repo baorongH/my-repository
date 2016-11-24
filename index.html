@@ -7,12 +7,21 @@
      <meta name="apple-mobile-web-app-capable" content="yes">
      <meta name="apple-mobile-web-app-status-bar-style" content="black">
      <meta name="format-detection" content="telephone=no">
-     <link rel="stylesheet" href="css/style.css">
+     <link rel="stylesheet" href="css/main.css">
  </head>
  <body>
+ <div class="modal hide">
+    <img class="tips" src="./assets/tips.png">
+ </div>
  <section>
-     <div class="bg is-1">
-
+     <div class="bg flex is-1">
+         <div class="phone">
+            <img class="image" src="./assets/phone.png">
+         </div>
+         <div class="btn-wrap">
+            <a href="javascript:;" class="btn android"></a>
+            <a href="javascript:;" class="btn ios"></a>
+         </div>
      </div>
      <div class="bg is-2">
      </div>
@@ -21,24 +30,140 @@
      <div class="bg is-4">
      </div>
      <div class="bg is-5">
+         <div class="bottom-btn-wrap">
+             <a class="bottom-btn android"></a>
+             <a class="bottom-btn ios"></a>
+         </div>
      </div>
  </section>
  <script type="text/javascript">
      (function(){
-         var width   = (window.innerWidth > 0) ? window.innerWidth : screen.width
-         let scale   = width/750
-         let bgH     = 400 * scale
-         let arr     = [
-            '.bg{height:'+bgH+'px;}'
-         ]
-         var cssNode = document.createTextNode(arr.join(''));
+         var config = {
+             /*scheme:*/
+             scheme_IOS: 'myapp://',
+             scheme_Adr: 'patient://com.shkjs.patient/openwith?name=zhangsan&age=26',
+             download_url: 'http://m.chanyouji.cn/apk/chanyouji-2.2.0.apk',
+             timeout: 600
+         };
+         var V = function () {
+             this.timer = null
+             this.ua = navigator.userAgent.toLowerCase()
+         }
+         V.prototype.init = function () {
+             var width              = (window.innerWidth > 0) ? window.innerWidth : screen.width
+             var scale              = width/750
+             var bgH                = 400 * scale
+             var phone              = {w:216 * scale,pL:55 * scale,pT:40 * scale,pR:50 * scale}
+             var btnWrp             = {mT:260 * scale,}
+             var btns               = {w:180 * scale , h:60 * scale}
+             var bottomBtnWrp       = {w:400 * scale , h:152 * scale,pT:75 * scale}
+             var bottomBtn          = {w:150 * scale , h:150 * scale}
+             var arr     = [
+                 '.bg{height:'+bgH+'px;}',
+                 '.phone{width:'+phone.w+'px;padding:'+phone.pT+'px '+phone.pL+'px 0;}',
+                 '.btn-wrap{margin-top:'+btnWrp.mT+'px;}',
+                 '.btn-wrap .btn{width:'+btns.w+'px;height:'+btns.h+'px; }',
+                 '.bottom-btn-wrap{width:'+bottomBtnWrp.w+'px;height:'+bottomBtnWrp.h+'px;padding-top:'+bottomBtnWrp.pT+'px; }',
+                 '.bottom-btn{width:'+bottomBtn.w+'px;height:'+bottomBtn.h+'px;}',
+             ]
+             var cssNode = document.createTextNode(arr.join(''));
+             var style = document.createElement("style");
 
-         var style = document.createElement("style");
-         style.type = "text/css";
-         style.appendChild(cssNode);
-         document.head.appendChild(style);
+             style.type = "text/css";
+             style.appendChild(cssNode);
+             document.head.appendChild(style);
+         }
 
+         V.prototype.getClass = function (el) {
+             var el = document.querySelector(el)
+             this.el = el
+             return this
+         }
+
+         V.prototype.tipShow = function () {
+             var ele = this.getClass('.modal').el
+             ele.className = ele.className.replace(/hide/ig,'')
+             return this
+         }
+
+         V.prototype.tipInit = function () {
+             var that = this
+             var ele = this.getClass('.modal').el
+             ele.addEventListener('click',function () {
+                 that.tipClose()
+             },false)
+             var tips = this.getClass('.tips').el
+             tips.addEventListener('click',function () {
+                 that.tipClose()
+             },false)
+         }
+
+         V.prototype.downloadInit = function () {
+             var that = this
+             var ele = this.getClass('.btn-wrap .android').el
+             ele.addEventListener('click',function () {
+                 that.openClient()
+             },false)
+             var tips = this.getClass('.btn-wrap .ios').el
+             tips.addEventListener('click',function () {
+                 that.tipClose()
+             },false)
+         }
+
+         V.prototype.tipClose = function () {
+             var ele = this.getClass('.modal').el
+             ele.className += ' hide '
+         }
+
+         V.prototype.isWeChat = function(){
+             var ua = navigator.userAgent.toLowerCase();
+             if(ua.match(/MicroMessenger/i)=="micromessenger") {
+                 return true;
+             } else {
+                 return false;
+             }
+         }
+
+         V.prototype.openClient = function () {
+             var that = this
+             var startTime = Date.now();
+             var ifr = document.createElement('iframe');
+
+             ifr.src = that.ua.indexOf('os') > 0 ? config.scheme_IOS : config.scheme_Adr;
+             ifr.style.display = 'none';
+             document.body.appendChild(ifr);
+
+             that.timer = setTimeout(function() {
+                 var endTime = Date.now();
+
+                 if (!startTime || endTime - startTime < config.timeout + 200) {
+                     window.location = config.download_url;
+                 } else {
+
+                 }
+             }, config.timeout);
+
+             window.onblur = function() {
+                 clearTimeout(that.timer);
+             }
+             console.log('hah')
+         }
+
+         var v = new V();
+
+         document.addEventListener("DOMContentLoaded", function(event) {
+             v.init()
+             v.tipInit()
+             v.isWeChat() && v.tipShow().tipInit()
+             v.downloadInit()
+         });
+
+         window.onresize = function (){
+            v.init()
+            console.log("haha")
+         }
      })();
  </script>
+
  </body>
  </html>
