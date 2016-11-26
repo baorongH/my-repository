@@ -1,4 +1,4 @@
-# Created by .ignore support plugin (hsz.mobi)
+
 .idea/inspectionProfiles/
 .idea/misc.xml
 .idea/modules.xml
@@ -6,3 +6,11 @@
 .idea/workspace.xml
 .gitignore
 .idea/
+node_modules/
+
+/.gitignore
+.DS_Store
+css/
+dist/
+gulpfile.js
+package.json
